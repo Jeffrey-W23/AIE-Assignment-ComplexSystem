@@ -163,12 +163,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application2D.cpp" />
-    <ClCompile Include="LuaBindings.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application2D.h" />
-    <ClInclude Include="LuaBindings.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
