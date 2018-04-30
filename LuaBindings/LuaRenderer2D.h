@@ -1,6 +1,13 @@
 // #includes, using, etc
 #pragma once
-#include "Lua.hpp"
+
+// forward declares
+struct lua_State;
+
+namespace aie
+{
+	class Renderer2D;
+}
 
 //--------------------------------------------------------------------------------------
 // LuaRenderer2D object.
@@ -27,21 +34,23 @@ public:
 	//--------------------------------------------------------------------------------------
 	void CreateRenderer2DLibrary(lua_State* pLuaState);
 
-	//--------------------------------------------------------------------------------------
-	// l_Renderer2DNew: 
-	//
-	// Param:
-	//		pLuaState: pointer to the lua_State.
-	//--------------------------------------------------------------------------------------
-	int l_Renderer2DNew(lua_State* pLuaState);
+private:
 
 	//--------------------------------------------------------------------------------------
-	// l_Renderer2DDelete: 
+	// SetRenderer2D: 
+	//
+	// Param:
+	//		pRenderer: 
+	//--------------------------------------------------------------------------------------
+	static void SetRenderer2D(aie::Renderer2D* renderer);
+
+	//--------------------------------------------------------------------------------------
+	// l_GetRenderer2D: 
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	int l_Renderer2DDelete(lua_State* pLuaState);
+	static int l_GetRenderer2D(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_Begin: 
@@ -49,7 +58,7 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	int l_Begin(lua_State* pLuaState);
+	static int l_Begin(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_End: 
@@ -57,7 +66,7 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	int l_End(lua_State* pLuaState);
+	static int l_End(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_SetCameraPos: 
@@ -65,7 +74,7 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	int l_SetCameraPos(lua_State* pLuaState);
+	static int l_SetCameraPos(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_SetRenderColour: 
@@ -73,7 +82,7 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	int l_SetRenderColour(lua_State* pLuaState);
+	static int l_SetRenderColour(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_SetUVRect: 
@@ -81,7 +90,7 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	int l_SetUVRect(lua_State* pLuaState);
+	static int l_SetUVRect(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_DrawSprite: 
@@ -89,7 +98,7 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	int l_DrawSprite(lua_State* pLuaState);
+	static int l_DrawSprite(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_DrawLine: 
@@ -97,7 +106,7 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	int l_DrawLine(lua_State* pLuaState);
+	static int l_DrawLine(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_DrawCircle: 
@@ -105,7 +114,7 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	int l_DrawCircle(lua_State* pLuaState);
+	static int l_DrawCircle(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_DrawBox: 
@@ -113,7 +122,7 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	int l_DrawBox(lua_State* pLuaState);
+	static int l_DrawBox(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_DrawText: 
@@ -121,5 +130,10 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	int l_DrawText(lua_State* pLuaState);
+	static int l_DrawText(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// pointer to the renderer2d.
+	//--------------------------------------------------------------------------------------
+	static aie::Renderer2D* m_pRenderer2D;
 };
