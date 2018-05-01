@@ -19,10 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LuaFont.h" />
+    <ClInclude Include="LuaInput.h" />
     <ClInclude Include="LuaRenderer2D.h" />
+    <ClInclude Include="LuaTexture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="LuaFont.cpp" />
+    <ClCompile Include="LuaInput.cpp" />
     <ClCompile Include="LuaRenderer2D.cpp" />
+    <ClCompile Include="LuaTexture.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

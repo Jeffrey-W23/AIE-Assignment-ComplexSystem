@@ -34,18 +34,19 @@ public:
 	//--------------------------------------------------------------------------------------
 	void CreateRenderer2DLibrary(lua_State* pLuaState);
 
-private:
-
 	//--------------------------------------------------------------------------------------
-	// SetRenderer2D: 
+	// SetRenderer2D: Set the renderer2d for the lua bindings.
 	//
 	// Param:
-	//		pRenderer: 
+	//		pRenderer: pointer to the renderer2d.
 	//--------------------------------------------------------------------------------------
 	static void SetRenderer2D(aie::Renderer2D* renderer);
 
+private:
+
 	//--------------------------------------------------------------------------------------
-	// l_GetRenderer2D: 
+	// l_GetRenderer2D: Lua bindings for getting an instance of the bootstrap renderer2d
+	// pointer in lua.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -53,7 +54,7 @@ private:
 	static int l_GetRenderer2D(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// l_Begin: 
+	// l_Begin: Lua bindings for the bootstrap renderer2d Begin function.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -61,7 +62,7 @@ private:
 	static int l_Begin(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// l_End: 
+	// l_End: Lua bindings for the bootstrap renderer2d End function.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -69,7 +70,7 @@ private:
 	static int l_End(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// l_SetCameraPos: 
+	// l_SetCameraPos: Lua bindings for the bootstrap renderer2d SetCameraPos function.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -77,7 +78,7 @@ private:
 	static int l_SetCameraPos(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// l_SetRenderColour: 
+	// l_SetRenderColour: Lua bindings for the bootstrap renderer2d SetRenderColour function.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -85,7 +86,7 @@ private:
 	static int l_SetRenderColour(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// l_SetUVRect: 
+	// l_SetUVRect: Lua bindings for the bootstrap renderer2d SetUVRect function.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -93,7 +94,7 @@ private:
 	static int l_SetUVRect(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// l_DrawSprite: 
+	// l_DrawSprite: Lua bindings for the bootstrap renderer2d DrawSprite function.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -101,7 +102,7 @@ private:
 	static int l_DrawSprite(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// l_DrawLine: 
+	// l_DrawLine: Lua bindings for the bootstrap renderer2d DrawLine function.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -109,7 +110,7 @@ private:
 	static int l_DrawLine(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// l_DrawCircle: 
+	// l_DrawCircle: Lua bindings for the bootstrap renderer2d DrawCircle function.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -117,7 +118,7 @@ private:
 	static int l_DrawCircle(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// l_DrawBox: 
+	// l_DrawBox: Lua bindings for the bootstrap renderer2d DrawBox function.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -125,7 +126,7 @@ private:
 	static int l_DrawBox(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// l_DrawText: 
+	// l_DrawText: Lua bindings for the bootstrap renderer2d DrawText function.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.

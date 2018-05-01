@@ -49,10 +49,10 @@ void LuaRenderer2D::CreateRenderer2DLibrary(lua_State* pLuaState)
 }
 
 //--------------------------------------------------------------------------------------
-// SetRenderer2D: 
+// SetRenderer2D: Set the renderer2d for the lua bindings.
 //
 // Param:
-//		pRenderer: a pointer to renderer2d.
+//		pRenderer: pointer to the renderer2d.
 //--------------------------------------------------------------------------------------
 void LuaRenderer2D::SetRenderer2D(aie::Renderer2D * pRenderer)
 {
@@ -61,7 +61,8 @@ void LuaRenderer2D::SetRenderer2D(aie::Renderer2D * pRenderer)
 }
 
 //--------------------------------------------------------------------------------------
-// l_GetRenderer2D: 
+// l_GetRenderer2D: Lua bindings for getting an instance of the bootstrap renderer2d
+// pointer in lua.
 //
 // Param:
 //		pLuaState: pointer to the lua_State.
@@ -79,7 +80,7 @@ int LuaRenderer2D::l_GetRenderer2D(lua_State* pLuaState)
 }
 
 //--------------------------------------------------------------------------------------
-// l_Begin: 
+// l_Begin: Lua bindings for the bootstrap renderer2d Begin function.
 //
 // Param:
 //		pLuaState: pointer to the lua_State.
@@ -98,7 +99,7 @@ int LuaRenderer2D::l_Begin(lua_State* pLuaState)
 }
 
 //--------------------------------------------------------------------------------------
-// l_End: 
+// l_End: Lua bindings for the bootstrap renderer2d End function.
 //
 // Param:
 //		pLuaState: pointer to the lua_State.
@@ -117,7 +118,7 @@ int LuaRenderer2D::l_End(lua_State* pLuaState)
 }
 
 //--------------------------------------------------------------------------------------
-// l_SetCameraPos: 
+// l_SetCameraPos: Lua bindings for the bootstrap renderer2d SetCameraPos function.
 //
 // Param:
 //		pLuaState: pointer to the lua_State.
@@ -183,7 +184,7 @@ int LuaRenderer2D::l_SetCameraPos(lua_State* pLuaState)
 }
 
 //--------------------------------------------------------------------------------------
-// l_SetRenderColour: 
+// l_SetRenderColour: Lua bindings for the bootstrap renderer2d SetRenderColour function.
 //
 // Param:
 //		pLuaState: pointer to the lua_State.
@@ -279,7 +280,7 @@ int LuaRenderer2D::l_SetRenderColour(lua_State* pLuaState)
 }
 
 //--------------------------------------------------------------------------------------
-// l_SetUVRect: 
+// l_SetUVRect: Lua bindings for the bootstrap renderer2d SetUVRect function.
 //
 // Param:
 //		pLuaState: pointer to the lua_State.
@@ -375,31 +376,152 @@ int LuaRenderer2D::l_SetUVRect(lua_State* pLuaState)
 }
 
 //--------------------------------------------------------------------------------------
-// l_DrawSprite: 
+// l_DrawSprite: Lua bindings for the bootstrap renderer2d DrawSprite function.
 //
 // Param:
 //		pLuaState: pointer to the lua_State.
 //--------------------------------------------------------------------------------------
 int LuaRenderer2D::l_DrawSprite(lua_State* pLuaState)
 {
+	// if the stack isnt 9
+	if (lua_gettop(pLuaState) != 9)
+	{
+		// pop all values off the stack
+		lua_pop(pLuaState, lua_gettop(pLuaState));
 
+		// push false bool for failure and error message
+		lua_pushboolean(pLuaState, false);
+		lua_pushstring(pLuaState, "LuaRenderer2D::DrawSprite requires exactly 9 arguments (Texture, X, Y, Width, Height, Rotation, Depth, OriginX, OriginY)");
 
+		// return 2 values
+		return 2;
+	}
 
+	// if there is no first argument
+	if (lua_isnil(pLuaState, 1) == 0 || lua_isuserdata(pLuaState, 1) == 0)
+	{
+		// pop all values off the stack
+		lua_pop(pLuaState, lua_gettop(pLuaState));
 
+		// push false bool for failure and error message
+		lua_pushboolean(pLuaState, false);
+		lua_pushstring(pLuaState, "LuaRenderer2D::DrawSprite argument 1 should be a userdate or nil (Texture)");
 
+		// return 2 values
+		return 2;
+	}
 
+	// if there is no second argument
+	if (lua_isnumber(pLuaState, 2) == 0)
+	{
+		// pop all values off the stack
+		lua_pop(pLuaState, lua_gettop(pLuaState));
 
+		// push false bool for failure and error message
+		lua_pushboolean(pLuaState, false);
+		lua_pushstring(pLuaState, "LuaRenderer2D::DrawSprite argument 2 should be a number (X)");
 
+		// return 2 values
+		return 2;
+	}
 
+	// if there is no third argument
+	if (lua_isnumber(pLuaState, 3) == 0)
+	{
+		// pop all values off the stack
+		lua_pop(pLuaState, lua_gettop(pLuaState));
 
+		// push false bool for failure and error message
+		lua_pushboolean(pLuaState, false);
+		lua_pushstring(pLuaState, "LuaRenderer2D::DrawSprite argument 3 should be a number (Y)");
 
+		// return 2 values
+		return 2;
+	}
 
-	// error checking
-	// is nil check
+	// if there is no fourth argument
+	if (lua_isnumber(pLuaState, 4) == 0)
+	{
+		// pop all values off the stack
+		lua_pop(pLuaState, lua_gettop(pLuaState));
 
+		// push false bool for failure and error message
+		lua_pushboolean(pLuaState, false);
+		lua_pushstring(pLuaState, "LuaRenderer2D::DrawSprite argument 4 should be a number (Width)");
 
+		// return 2 values
+		return 2;
+	}
 
+	// if there is no fifth argument
+	if (lua_isnumber(pLuaState, 5) == 0)
+	{
+		// pop all values off the stack
+		lua_pop(pLuaState, lua_gettop(pLuaState));
 
+		// push false bool for failure and error message
+		lua_pushboolean(pLuaState, false);
+		lua_pushstring(pLuaState, "LuaRenderer2D::DrawSprite argument 5 should be a number (Height)");
+
+		// return 2 values
+		return 2;
+	}
+
+	// if there is no sixth argument
+	if (lua_isnumber(pLuaState, 6) == 0)
+	{
+		// pop all values off the stack
+		lua_pop(pLuaState, lua_gettop(pLuaState));
+
+		// push false bool for failure and error message
+		lua_pushboolean(pLuaState, false);
+		lua_pushstring(pLuaState, "LuaRenderer2D::DrawSprite argument 6 should be a number (Rotation)");
+
+		// return 2 values
+		return 2;
+	}
+
+	// if there is no seventh argument
+	if (lua_isnumber(pLuaState, 7) == 0)
+	{
+		// pop all values off the stack
+		lua_pop(pLuaState, lua_gettop(pLuaState));
+
+		// push false bool for failure and error message
+		lua_pushboolean(pLuaState, false);
+		lua_pushstring(pLuaState, "LuaRenderer2D::DrawSprite argument 7 should be a number (Depth)");
+
+		// return 2 values
+		return 2;
+	}
+
+	// if there is no eighth argument
+	if (lua_isnumber(pLuaState, 8) == 0)
+	{
+		// pop all values off the stack
+		lua_pop(pLuaState, lua_gettop(pLuaState));
+
+		// push false bool for failure and error message
+		lua_pushboolean(pLuaState, false);
+		lua_pushstring(pLuaState, "LuaRenderer2D::DrawSprite argument 8 should be a number (OriginX)");
+
+		// return 2 values
+		return 2;
+	}
+
+	// if there is no ninth argument
+	if (lua_isnumber(pLuaState, 9) == 0)
+	{
+		// pop all values off the stack
+		lua_pop(pLuaState, lua_gettop(pLuaState));
+
+		// push false bool for failure and error message
+		lua_pushboolean(pLuaState, false);
+		lua_pushstring(pLuaState, "LuaRenderer2D::DrawSprite argument 9 should be a number (OriginY)");
+
+		// return 2 values
+		return 2;
+	}
 
 	// get 9 values from lua and store
 	aie::Texture* pTexture = (aie::Texture*)lua_touserdata(pLuaState, 1);
@@ -424,7 +546,7 @@ int LuaRenderer2D::l_DrawSprite(lua_State* pLuaState)
 }
 
 //--------------------------------------------------------------------------------------
-// l_DrawLine: 
+// l_DrawLine: Lua bindings for the bootstrap renderer2d DrawLine function.
 //
 // Param:
 //		pLuaState: pointer to the lua_State.
@@ -549,14 +671,13 @@ int LuaRenderer2D::l_DrawLine(lua_State* pLuaState)
 }
 
 //--------------------------------------------------------------------------------------
-// l_DrawCircle: 
+// l_DrawCircle: Lua bindings for the bootstrap renderer2d DrawCircle function.
 //
 // Param:
 //		pLuaState: pointer to the lua_State.
 //--------------------------------------------------------------------------------------
 int LuaRenderer2D::l_DrawCircle(lua_State* pLuaState)
 {
-
 	// if the stack isnt 4
 	if (lua_gettop(pLuaState) != 4)
 	{
@@ -645,7 +766,7 @@ int LuaRenderer2D::l_DrawCircle(lua_State* pLuaState)
 }
 
 //--------------------------------------------------------------------------------------
-// l_DrawBox: 
+// l_DrawBox: Lua bindings for the bootstrap renderer2d DrawBox function.
 //
 // Param:
 //		pLuaState: pointer to the lua_State.
@@ -771,7 +892,7 @@ int LuaRenderer2D::l_DrawBox(lua_State* pLuaState)
 }
 
 //--------------------------------------------------------------------------------------
-// l_DrawText: 
+// l_DrawText: Lua bindings for the bootstrap renderer2d DrawText function.
 //
 // Param:
 //		pLuaState: pointer to the lua_State.
