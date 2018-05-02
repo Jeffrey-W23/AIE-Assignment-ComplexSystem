@@ -3,6 +3,12 @@
 #include "Font.h"
 #include "Input.h"
 
+#include "Lua.hpp"
+#include "LuaRenderer2D.h"
+#include "LuaTexture.h"
+#include "LuaFont.h"
+#include "LuaInput.h"
+
 Application2D::Application2D() {
 
 }
@@ -24,6 +30,35 @@ bool Application2D::startup() {
 	m_cameraY = 0;
 	m_timer = 0;
 
+
+
+
+
+
+
+	m_pLuaState = luaL_newstate();
+	luaL_openlibs(m_pLuaState);
+
+	m_pLuaRenderer2D = new LuaRenderer2D();
+	m_pLuaRenderer2D->CreateRenderer2DLibrary(m_pLuaState);
+	m_pLuaRenderer2D->SetRenderer2D(m_2dRenderer);
+
+	m_pLuaTexture = new LuaTexture();
+	m_pLuaTexture->CreateTextureLibrary(m_pLuaState);
+
+	m_pLuaFont = new LuaFont();
+	m_pLuaFont->CreateFontLibrary(m_pLuaState);
+
+	m_pLuaInput = new LuaInput();
+	m_pLuaInput->CreateInputLibrary(m_pLuaState);
+
+	lua_close(m_pLuaState);
+
+
+
+
+
+
 	return true;
 }
 
@@ -41,6 +76,19 @@ void Application2D::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
+
+
+
+
+
+
+	m_pLuaInput->SetInputPointer(input);
+
+
+
+
+
+
 
 	// use arrow keys to move camera
 	if (input->isKeyDown(aie::INPUT_KEY_UP))

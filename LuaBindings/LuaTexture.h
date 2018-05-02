@@ -36,12 +36,12 @@ public:
 	//--------------------------------------------------------------------------------------
 	void CreateTextureLibrary(lua_State* pLuaState);
 
+private:
+
 	//--------------------------------------------------------------------------------------
 	// CleanUpTextureMap: Delete all loaded textures in the map.
 	//--------------------------------------------------------------------------------------
 	void CleanUpTextureMap();
-
-private:
 
 	//--------------------------------------------------------------------------------------
 	// l_NewTexture: Lua bindings for the bootstrap Texture constructor.

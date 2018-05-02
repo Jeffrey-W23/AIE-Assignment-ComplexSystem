@@ -88,7 +88,7 @@ int LuaRenderer2D::l_GetRenderer2D(lua_State* pLuaState)
 int LuaRenderer2D::l_Begin(lua_State* pLuaState)
 {
 	// make sure there are no values on the stack
-	lua_pop(pLuaState, 1);
+	lua_pop(pLuaState, lua_gettop(pLuaState));
 
 	// call the renderer2d begin function
 	m_pRenderer2D->begin();
@@ -107,7 +107,7 @@ int LuaRenderer2D::l_Begin(lua_State* pLuaState)
 int LuaRenderer2D::l_End(lua_State* pLuaState)
 {
 	// make sure there are no values on the stack
-	lua_pop(pLuaState, 1);
+	lua_pop(pLuaState, lua_gettop(pLuaState));
 
 	// call the renderer2d end function
 	m_pRenderer2D->end();
