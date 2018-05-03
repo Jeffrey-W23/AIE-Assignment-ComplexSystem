@@ -3,6 +3,9 @@
 #include "Lua.hpp"
 #include "Input.h"
 
+// static member initialization of m_pInput.
+aie::Input* LuaInput::sm_pInput;
+
 //--------------------------------------------------------------------------------------
 // Default Constructor.
 //--------------------------------------------------------------------------------------
@@ -28,6 +31,7 @@ void LuaInput::CreateInputLibrary(lua_State* pLuaState)
 	// Register lua functions from cpp
 	static const struct luaL_reg s_kslInputLibrary[] = {
 		{ "GetInstance", l_GetInputPointer },
+		{"IsKeyDown", l_IsKeyDown },
 		{ NULL, NULL }
 	};
 
@@ -44,7 +48,7 @@ void LuaInput::CreateInputLibrary(lua_State* pLuaState)
 void LuaInput::SetInputPointer(aie::Input * pInput)
 {
 	// set the input pointer
-	m_pInput = pInput;
+	sm_pInput = pInput;
 }
 
 //--------------------------------------------------------------------------------------
@@ -62,7 +66,7 @@ int LuaInput::l_GetInputPointer(lua_State* pLuaState)
 	lua_pushboolean(pLuaState, true);
 
 	// return a pointer to lua
-	lua_pushlightuserdata(pLuaState, m_pInput);
+	lua_pushlightuserdata(pLuaState, sm_pInput);
 
 	// return 2 values.
 	return 2;
@@ -100,7 +104,7 @@ int LuaInput::l_IsKeyDown(lua_State* pLuaState)
 	lua_pop(pLuaState, 1);
 
 	// call the renderer2d setCameraPos function and pass on lua values
-	lua_pushboolean(pLuaState, m_pInput->isKeyDown(nInputKeyID));
+	lua_pushboolean(pLuaState, sm_pInput->isKeyDown(nInputKeyID));
 
 	// return 2 values
 	return 2;

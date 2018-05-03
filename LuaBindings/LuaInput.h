@@ -32,7 +32,7 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	void CreateInputLibrary(lua_State* pLuaState);
+	static void CreateInputLibrary(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// SetInputPointer: Set the aie input pointer for the lua bindings.
@@ -63,5 +63,5 @@ private:
 	//--------------------------------------------------------------------------------------
 	// pointer to the aie input.
 	//--------------------------------------------------------------------------------------
-	static aie::Input* m_pInput;
+	static aie::Input* sm_pInput;
 };

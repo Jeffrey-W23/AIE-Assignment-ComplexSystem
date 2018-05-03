@@ -1,153 +1,249 @@
+// #includes, using, etc
 #include "Application2D.h"
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
-
 #include "Lua.hpp"
+#include <lauxlib.h>
+#include <lualib.h> 
 #include "LuaRenderer2D.h"
 #include "LuaTexture.h"
 #include "LuaFont.h"
 #include "LuaInput.h"
+#include <iostream>
 
-Application2D::Application2D() {
-
+//--------------------------------------------------------------------------------------
+// Default Constructor.
+//--------------------------------------------------------------------------------------
+Application2D::Application2D() 
+{
 }
 
-Application2D::~Application2D() {
-
+//--------------------------------------------------------------------------------------
+// Default Destructor
+//--------------------------------------------------------------------------------------
+Application2D::~Application2D() 
+{
 }
 
-bool Application2D::startup() {
-	
+//--------------------------------------------------------------------------------------
+// startup: Initialize the game.
+//
+// Returns:
+//		bool: Returns a true or false for if the startup is sucessful.
+//--------------------------------------------------------------------------------------
+bool Application2D::startup() 
+{
+	// new pointer to renderer2d
 	m_2dRenderer = new aie::Renderer2D();
 
-	m_texture = new aie::Texture("./textures/numbered_grid.tga");
-	m_shipTexture = new aie::Texture("./textures/ship.png");
-
-	m_font = new aie::Font("./font/consolas.ttf", 32);
-	
-	m_cameraX = 0;
-	m_cameraY = 0;
-	m_timer = 0;
-
-
-
-
-
-
-
+	// Create a new lua state and open libs.
 	m_pLuaState = luaL_newstate();
 	luaL_openlibs(m_pLuaState);
 
-	m_pLuaRenderer2D = new LuaRenderer2D();
+	// Create each of the lua libaray functions
 	m_pLuaRenderer2D->CreateRenderer2DLibrary(m_pLuaState);
-	m_pLuaRenderer2D->SetRenderer2D(m_2dRenderer);
-
-	m_pLuaTexture = new LuaTexture();
 	m_pLuaTexture->CreateTextureLibrary(m_pLuaState);
-
-	m_pLuaFont = new LuaFont();
 	m_pLuaFont->CreateFontLibrary(m_pLuaState);
-
-	m_pLuaInput = new LuaInput();
 	m_pLuaInput->CreateInputLibrary(m_pLuaState);
 
-	lua_close(m_pLuaState);
+	// set the renderer2d for lua
+	m_pLuaRenderer2D->SetRenderer2D(m_2dRenderer);
+
+	// load the lua file demo.lua
+	LoadLuaFileToExecute("demo.lua");
 
 
 
 
 
 
+
+
+	// PUT THIS IN A FUNCTION SO I DONT HAVE TO REPEAT
+
+	//// get the global variable startup and pushes it to the top of the stack
+	//lua_getglobal(m_pLuaState, "Startup");
+
+	//// if there is something on the top of stack
+	//if (lua_isfunction(m_pLuaState, -1))
+	//{
+	//	// call function
+	//	if (lua_pcall(m_pLuaState, 0, 0, 0) != 0)
+	//	{
+	//		std::cout << "Function Error: " << lua_tostring(m_pLuaState, -1) << std::endl;
+
+	//		lua_pop(m_pLuaState, 1);
+	//	}
+	//}
+	//else
+	//{
+	//	// pop off the top of the stack
+	//	lua_pop(m_pLuaState, -1);
+	//}
+
+
+
+
+
+
+
+
+
+	
+	// return true for startup
 	return true;
 }
 
-void Application2D::shutdown() {
-	
-	delete m_font;
-	delete m_texture;
-	delete m_shipTexture;
+//--------------------------------------------------------------------------------------
+// shutdown: Called on application shutdown and does all the cleaning up (eg. Deleteing pointers.)
+//--------------------------------------------------------------------------------------
+void Application2D::shutdown() 
+{
+	// delete pointers
 	delete m_2dRenderer;
+
+	// get the global variable shutdown and pushes it to the top of the stack
+	lua_getglobal(m_pLuaState, "Shutdown");
+
+	// if there is something on the top of stack
+	if (lua_isfunction(m_pLuaState, -1))
+	{
+		// call function
+		if (lua_pcall(m_pLuaState, 0, 0, 0) != 0)
+		{
+			std::cout << "Function Error: " << lua_tostring(m_pLuaState, -1) << std::endl;
+
+			lua_pop(m_pLuaState, 1);
+		}
+	}
+	else
+	{
+		// pop off the top of the stack
+		lua_pop(m_pLuaState, -1);
+	}
+
+	// clean up the textures and the fonts being used in lua.
+	m_pLuaTexture->CleanUpTextureMap();
+	m_pLuaFont->CleanUpFontMap();
+
+	// close the lua state
+	lua_close(m_pLuaState);
 }
 
-void Application2D::update(float deltaTime) {
-
-	m_timer += deltaTime;
-
-	// input example
+//--------------------------------------------------------------------------------------
+// Update: A virtual function to update objects.
+//
+// Param:
+//		deltaTime: Pass in deltaTime. A number that updates per second.
+//--------------------------------------------------------------------------------------
+void Application2D::update(float deltaTime) 
+{
+	// Get input instance
 	aie::Input* input = aie::Input::getInstance();
-
-
-
-
-
-
-	m_pLuaInput->SetInputPointer(input);
-
-
-
-
-
-
-
-	// use arrow keys to move camera
-	if (input->isKeyDown(aie::INPUT_KEY_UP))
-		m_cameraY += 500.0f * deltaTime;
-
-	if (input->isKeyDown(aie::INPUT_KEY_DOWN))
-		m_cameraY -= 500.0f * deltaTime;
-
-	if (input->isKeyDown(aie::INPUT_KEY_LEFT))
-		m_cameraX -= 500.0f * deltaTime;
-
-	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
-		m_cameraX += 500.0f * deltaTime;
-
-	// exit the application
+	
+	// if escape key close down application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
+
+	// if the grave accent key is pressed
+	if (input->isKeyDown(aie::INPUT_KEY_GRAVE_ACCENT))
+	{
+		// reload the demo.lua file
+		LoadLuaFileToExecute("demo.lua");
+	}
+
+	// Set the aie input pointer for lua
+	m_pLuaInput->SetInputPointer(input);
+
+	// get the global variable update and pushes it to the top of the stack
+	lua_getglobal(m_pLuaState, "Update");
+	
+	// if there is something on the top of stack
+	if (lua_isfunction(m_pLuaState, -1))
+	{
+		// push deltatime onto the stack
+		lua_pushnumber(m_pLuaState, deltaTime);
+
+		// call function
+		if (lua_pcall(m_pLuaState, 1, 1, 0) != 0)
+		{
+			std::cout << "Function Error: " << lua_tostring(m_pLuaState, -1) << std::endl;
+
+			lua_pop(m_pLuaState, 1);
+		}
+
+		// new bool for if update is successful
+		bool bSuccess = true;
+
+		// Is the top of the stack a bool
+		if (lua_isboolean(m_pLuaState, -1))
+		{
+			// put the success bool on the stack
+			bSuccess = lua_toboolean(m_pLuaState, -1);
+		}
+
+		// pop 1 value of the stack
+		lua_pop(m_pLuaState, 1);
+	}
+	else
+	{
+		// pop off the top of the stack
+		lua_pop(m_pLuaState, -1);
+	}
 }
 
-void Application2D::draw() {
-
+//--------------------------------------------------------------------------------------
+// Draw: A virtual function to render (or "draw") objects to the screen.
+//--------------------------------------------------------------------------------------
+void Application2D::draw() 
+{
 	// wipe the screen to the background colour
 	clearScreen();
 
-	// set the camera position before we begin rendering
-	m_2dRenderer->setCameraPos(m_cameraX, m_cameraY);
-
-	// begin drawing sprites
-	m_2dRenderer->begin();
-
-	// demonstrate animation
-	m_2dRenderer->setUVRect(int(m_timer) % 8 / 8.0f, 0, 1.f / 8, 1.f / 8);
-	m_2dRenderer->drawSprite(m_texture, 200, 200, 100, 100);
-
-	// demonstrate spinning sprite
-	m_2dRenderer->setUVRect(0,0,1,1);
-	m_2dRenderer->drawSprite(m_shipTexture, 600, 400, 0, 0, m_timer, 1);
-
-	// draw a thin line
-	m_2dRenderer->drawLine(300, 300, 600, 400, 2, 1);
-
-	// draw a moving purple circle
-	m_2dRenderer->setRenderColour(1, 0, 1, 1);
-	m_2dRenderer->drawCircle(sin(m_timer) * 100 + 600, 150, 50);
-
-	// draw a rotating red box
-	m_2dRenderer->setRenderColour(1, 0, 0, 1);
-	m_2dRenderer->drawBox(600, 500, 60, 20, m_timer);
-
-	// draw a slightly rotated sprite with no texture, coloured yellow
-	m_2dRenderer->setRenderColour(1, 1, 0, 1);
-	m_2dRenderer->drawSprite(nullptr, 400, 400, 50, 50, 3.14159f * 0.25f, 1);
+	// get the global variable draw and pushes it to the top of the stack
+	lua_getglobal(m_pLuaState, "Draw");
 	
-	// output some text, uses the last used colour
-	char fps[32];
-	sprintf_s(fps, 32, "FPS: %i", getFPS());
-	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
-	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
+	// if there is something on the top of stack
+	if (lua_isfunction(m_pLuaState, -1))
+	{
+		// call function
+		if (lua_pcall(m_pLuaState, 0, 0, 0) != 0)
+		{
+			std::cout << "Function Error: " << lua_tostring(m_pLuaState, -1) << std::endl;
 
-	// done drawing sprites
-	m_2dRenderer->end();
+			lua_pop(m_pLuaState, 1);
+		}
+	}
+	else
+	{
+		// pop off the top of the stack
+		lua_pop(m_pLuaState, -1);
+	}
+}
+
+// --------------------------------------------------------------------------------------
+// LoadLuaFileToExecute: Load and excute a lua file by the passed in filename.
+//
+// Param:
+//		kcFileName: const char pointer for the filename of the lua file to load.
+//--------------------------------------------------------------------------------------
+void Application2D::LoadLuaFileToExecute(const char* kcFileName)
+{
+	// Load and excute file.
+	int nError = luaL_dofile(m_pLuaState, kcFileName);
+
+	// if there is an error.
+	if (nError != 0)
+	{
+		// print error to the console.
+		std::cout << "Failed to load the file 'demo.lua'" << std::endl;
+		std::cout << "Lua Error: " << lua_tostring(m_pLuaState, -1) << std::endl;
+		
+		// pop anything that might be on the stack.
+		lua_pop(m_pLuaState, 1);
+		
+		// pause the application.
+		system("pause");
+	}
 }

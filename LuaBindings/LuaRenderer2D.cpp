@@ -6,6 +6,9 @@
 #include "Font.h"
 #include <assert.h>
 
+// static member initialization of m_pRenderer2D.
+aie::Renderer2D* LuaRenderer2D::sm_pRenderer2D;
+
 //--------------------------------------------------------------------------------------
 // Default Constructor.
 //--------------------------------------------------------------------------------------
@@ -54,10 +57,10 @@ void LuaRenderer2D::CreateRenderer2DLibrary(lua_State* pLuaState)
 // Param:
 //		pRenderer: pointer to the renderer2d.
 //--------------------------------------------------------------------------------------
-void LuaRenderer2D::SetRenderer2D(aie::Renderer2D * pRenderer)
+void LuaRenderer2D::SetRenderer2D(aie::Renderer2D* pRenderer)
 {
 	// set the renderer2d
-	m_pRenderer2D = pRenderer;
+	sm_pRenderer2D = pRenderer;
 }
 
 //--------------------------------------------------------------------------------------
@@ -73,7 +76,7 @@ int LuaRenderer2D::l_GetRenderer2D(lua_State* pLuaState)
 	lua_pop(pLuaState, lua_gettop(pLuaState));
 	
 	// push the renderer2d
-	lua_pushlightuserdata(pLuaState, (void*)m_pRenderer2D);
+	lua_pushlightuserdata(pLuaState, (void*)sm_pRenderer2D);
 
 	// returning 1 value
 	return 1;
@@ -91,7 +94,7 @@ int LuaRenderer2D::l_Begin(lua_State* pLuaState)
 	lua_pop(pLuaState, lua_gettop(pLuaState));
 
 	// call the renderer2d begin function
-	m_pRenderer2D->begin();
+	sm_pRenderer2D->begin();
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -110,7 +113,7 @@ int LuaRenderer2D::l_End(lua_State* pLuaState)
 	lua_pop(pLuaState, lua_gettop(pLuaState));
 
 	// call the renderer2d end function
-	m_pRenderer2D->end();
+	sm_pRenderer2D->end();
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -176,7 +179,7 @@ int LuaRenderer2D::l_SetCameraPos(lua_State* pLuaState)
 	lua_pop(pLuaState, 2);
 
 	// call the renderer2d setCameraPos function and pass on lua values
-	m_pRenderer2D->setCameraPos(fX, fY);
+	sm_pRenderer2D->setCameraPos(fX, fY);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -272,7 +275,7 @@ int LuaRenderer2D::l_SetRenderColour(lua_State* pLuaState)
 	lua_pop(pLuaState, 4);
 
 	// call the renderer2d setRenderColour function and pass on lua values
-	m_pRenderer2D->setRenderColour(fR, fG, fB, fA);
+	sm_pRenderer2D->setRenderColour(fR, fG, fB, fA);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -368,7 +371,7 @@ int LuaRenderer2D::l_SetUVRect(lua_State* pLuaState)
 	lua_pop(pLuaState, 4);
 
 	// call the renderer2d setUVRect function and pass on lua values
-	m_pRenderer2D->setUVRect(fUVx, fUVy, fUVw, fUVh);
+	sm_pRenderer2D->setUVRect(fUVx, fUVy, fUVw, fUVh);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -538,7 +541,7 @@ int LuaRenderer2D::l_DrawSprite(lua_State* pLuaState)
 	lua_pop(pLuaState, 9);
 
 	// call the renderer2d drawSprite function and pass on lua values
-	m_pRenderer2D->drawSprite(pTexture, fX, fY, fWidth, fHeight, fRotation, fDepth, fOriginX, fOriginY);
+	sm_pRenderer2D->drawSprite(pTexture, fX, fY, fWidth, fHeight, fRotation, fDepth, fOriginX, fOriginY);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -663,7 +666,7 @@ int LuaRenderer2D::l_DrawLine(lua_State* pLuaState)
 	lua_pop(pLuaState, 6);
 
 	// call the renderer2d drawLine function and pass on lua values
-	m_pRenderer2D->drawLine(fX1, fY1, fX2, fY2, fThickness, fDepth);
+	sm_pRenderer2D->drawLine(fX1, fY1, fX2, fY2, fThickness, fDepth);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -758,7 +761,7 @@ int LuaRenderer2D::l_DrawCircle(lua_State* pLuaState)
 	lua_pop(pLuaState, 4);
 
 	// call the renderer2d drawCircle function and pass on lua values
-	m_pRenderer2D->drawCircle(fX, fY, fRadius, fDepth);
+	sm_pRenderer2D->drawCircle(fX, fY, fRadius, fDepth);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -884,7 +887,7 @@ int LuaRenderer2D::l_DrawBox(lua_State* pLuaState)
 	lua_pop(pLuaState, 6);
 
 	// call the renderer2d drawBox function and pass on lua values
-	m_pRenderer2D->drawBox(fX, fY, fWidth, fHeight, fRotation, fDepth);
+	sm_pRenderer2D->drawBox(fX, fY, fWidth, fHeight, fRotation, fDepth);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -999,7 +1002,7 @@ int LuaRenderer2D::l_DrawText(lua_State* pLuaState)
 	lua_pop(pLuaState, 5);
 
 	// call the renderer2d drawText function and pass on lua values
-	m_pRenderer2D->drawText(pFont, kcpText, fX, fY, fDepth);
+	sm_pRenderer2D->drawText(pFont, kcpText, fX, fY, fDepth);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);

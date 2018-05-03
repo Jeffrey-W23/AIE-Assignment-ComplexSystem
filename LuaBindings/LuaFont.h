@@ -34,14 +34,14 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	void CreateFontLibrary(lua_State* pLuaState);
-
-private:
+	static void CreateFontLibrary(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// CleanUpFontMap: Delete all loaded fonts in the map.
 	//--------------------------------------------------------------------------------------
-	void CleanUpFontMap();
+	static void CleanUpFontMap();
+
+private:
 
 	//--------------------------------------------------------------------------------------
 	// l_NewFont: Lua bindings for the bootstrap Font constructor.

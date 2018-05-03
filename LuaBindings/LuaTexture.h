@@ -34,14 +34,14 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	void CreateTextureLibrary(lua_State* pLuaState);
-
-private:
+	static void CreateTextureLibrary(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// CleanUpTextureMap: Delete all loaded textures in the map.
 	//--------------------------------------------------------------------------------------
-	void CleanUpTextureMap();
+	static void CleanUpTextureMap();
+
+private:
 
 	//--------------------------------------------------------------------------------------
 	// l_NewTexture: Lua bindings for the bootstrap Texture constructor.

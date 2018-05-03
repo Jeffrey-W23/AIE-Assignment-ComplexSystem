@@ -32,7 +32,7 @@ public:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	void CreateRenderer2DLibrary(lua_State* pLuaState);
+	static void CreateRenderer2DLibrary(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// SetRenderer2D: Set the renderer2d for the lua bindings.
@@ -136,5 +136,5 @@ private:
 	//--------------------------------------------------------------------------------------
 	// pointer to the renderer2d.
 	//--------------------------------------------------------------------------------------
-	static aie::Renderer2D* m_pRenderer2D;
+	static aie::Renderer2D* sm_pRenderer2D;
 };

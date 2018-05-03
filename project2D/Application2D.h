@@ -1,39 +1,95 @@
+// #includes, using, etc
 #pragma once
-
 #include "Application.h"
 #include "Renderer2D.h"
 
+// forward declares
 class LuaRenderer2D;
 class LuaTexture;
 class LuaFont;
 class LuaInput;
 struct lua_State;
 
-class Application2D : public aie::Application {
+//--------------------------------------------------------------------------------------
+// Application2D object. Inherits from Application.
+//--------------------------------------------------------------------------------------
+class Application2D : public aie::Application 
+{
 public:
 
+	//--------------------------------------------------------------------------------------
+	// Default Constructor.
+	//--------------------------------------------------------------------------------------
 	Application2D();
+
+	//--------------------------------------------------------------------------------------
+	// Default Destructor
+	//--------------------------------------------------------------------------------------
 	virtual ~Application2D();
 
+	//--------------------------------------------------------------------------------------
+	// startup: Initialize the game.
+	//
+	// Returns:
+	//		bool: Returns a true or false for if the startup is sucessful.
+	//--------------------------------------------------------------------------------------
 	virtual bool startup();
+
+	//--------------------------------------------------------------------------------------
+	// shutdown: Called on application shutdown and does all the cleaning up (eg. Deleteing pointers.)
+	//--------------------------------------------------------------------------------------
 	virtual void shutdown();
 
+	//--------------------------------------------------------------------------------------
+	// Update: A virtual function to update objects.
+	//
+	// Param:
+	//		deltaTime: Pass in deltaTime. A number that updates per second.
+	//--------------------------------------------------------------------------------------
 	virtual void update(float deltaTime);
+
+	//--------------------------------------------------------------------------------------
+	// Draw: A virtual function to render (or "draw") objects to the screen.
+	//--------------------------------------------------------------------------------------
 	virtual void draw();
+
+	// --------------------------------------------------------------------------------------
+	// LoadLuaFileToExecute: Load and excute a lua file by the passed in filename.
+	//
+	// Param:
+	//		kcFileName: const char pointer for the filename of the lua file to load.
+	//--------------------------------------------------------------------------------------
+	void LoadLuaFileToExecute(const char* kcFileName);
 
 protected:
 
-	aie::Renderer2D*	m_2dRenderer;
-	aie::Texture*		m_texture;
-	aie::Texture*		m_shipTexture;
-	aie::Font*			m_font;
-	
-	lua_State*			m_pLuaState;
-	LuaRenderer2D*		m_pLuaRenderer2D;
-	LuaTexture*			m_pLuaTexture;
-	LuaFont*			m_pLuaFont;
-	LuaInput*			m_pLuaInput;
+	//--------------------------------------------------------------------------------------
+	// A pointer to Renderer2D.
+	//--------------------------------------------------------------------------------------
+	aie::Renderer2D* m_2dRenderer;
 
-	float m_cameraX, m_cameraY;
-	float m_timer;
+	//--------------------------------------------------------------------------------------
+	// A pointer to lua_State.
+	//--------------------------------------------------------------------------------------
+	lua_State* m_pLuaState;
+
+	//--------------------------------------------------------------------------------------
+	// A pointer to LuaRenderer2D.
+	//--------------------------------------------------------------------------------------
+	LuaRenderer2D* m_pLuaRenderer2D;
+
+	//--------------------------------------------------------------------------------------
+	// A pointer to LuaTexture.
+	//--------------------------------------------------------------------------------------
+	LuaTexture* m_pLuaTexture;
+
+	//--------------------------------------------------------------------------------------
+	// A pointer to LuaFont.
+	//--------------------------------------------------------------------------------------
+	LuaFont* m_pLuaFont;
+
+	//--------------------------------------------------------------------------------------
+	// A pointer to LuaInput.
+	//--------------------------------------------------------------------------------------
+	LuaInput* m_pLuaInput;
 };
