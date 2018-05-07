@@ -401,7 +401,7 @@ int LuaRenderer2D::l_DrawSprite(lua_State* pLuaState)
 	}
 
 	// if there is no first argument
-	if (lua_isnil(pLuaState, 1) == 0 || lua_isuserdata(pLuaState, 1) == 0)
+	if (lua_isnil(pLuaState, 1) == 0 && lua_isuserdata(pLuaState, 1) == 0)
 	{
 		// pop all values off the stack
 		lua_pop(pLuaState, lua_gettop(pLuaState));
@@ -991,7 +991,7 @@ int LuaRenderer2D::l_DrawText(lua_State* pLuaState)
 
 	}
 
-	// get 6 float values from lua and store
+	// get 5 float values from lua and store
 	aie::Font* pFont = (aie::Font*)lua_touserdata(pLuaState, 1);
 	const char* kcpText = (char*)lua_tostring(pLuaState, 2);
 	float fX = (float)lua_tonumber(pLuaState, 3);

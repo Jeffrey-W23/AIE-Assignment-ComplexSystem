@@ -147,7 +147,7 @@ void Application2D::update(float deltaTime)
 		quit();
 
 	// if the grave accent key is pressed
-	if (input->isKeyDown(aie::INPUT_KEY_GRAVE_ACCENT))
+	if (input->wasKeyPressed(aie::INPUT_KEY_GRAVE_ACCENT))
 	{
 		// reload the demo.lua file
 		LoadLuaFileToExecute("demo.lua");
