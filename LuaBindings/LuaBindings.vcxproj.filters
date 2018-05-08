@@ -27,7 +27,7 @@
     <ClInclude Include="LuaInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LuaInitialize.h">
+    <ClInclude Include="LuaApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,7 +44,7 @@
     <ClCompile Include="LuaInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LuaInitialize.cpp">
+    <ClCompile Include="LuaApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,17 @@
 // #includes, using, etc
 #pragma once
 
+// Preprogramming to check and then switch between if the program is a dll libary or static.
+#ifdef STATIC_LIB
+	#define LUA_DLL
+#else
+	#ifdef DLL_EXPORT
+		#define LUA_DLL __declspec(dllexport)
+	#else
+		#define LUA_DLL __declspec(dllimport)
+	#endif
+#endif
+
 // forward declares
 struct lua_State;
 
@@ -50,7 +61,7 @@ private:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	static int l_GetInputPointer(lua_State* pLuaState);
+	LUA_DLL static int l_GetInputPointer(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_IsKeyDown: Lua bindings for the bootstrap Input IsKeyDown function.
@@ -58,7 +69,7 @@ private:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	static int l_IsKeyDown(lua_State* pLuaState);
+	LUA_DLL static int l_IsKeyDown(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// pointer to the aie input.

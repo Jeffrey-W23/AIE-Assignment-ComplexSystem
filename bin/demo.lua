@@ -51,6 +51,11 @@ function Update( deltaTime )
 	-- Update the timer by deltaTime
 	m_timer = m_timer + deltaTime
 	
+	-- if escape key then close down application
+	if (ErrorCheck(Input.IsKeyDown(InputKeys.INPUT_KEY_ESCAPE))) then
+		Application.Quit()
+	end
+	
 	-- Move camera up
 	if (ErrorCheck(Input.IsKeyDown(InputKeys.INPUT_KEY_UP))) then
 		m_cameraY = m_cameraY + 500 * deltaTime
@@ -76,6 +81,9 @@ end
 -- Draw: A function to render (or "draw") objects to the screen.
 ----------------------------------------------------------------------------------------
 function Draw()
+
+	-- wipe the screen to the background colour
+	Application.ClearScreen();
 
 	-- set the camera position before we begin rendering
 	Renderer2D.SetCameraPos(m_cameraX, m_cameraY)
@@ -109,6 +117,7 @@ function Draw()
 	-- output some text, uses the last used colour
 	Renderer2D.DrawText(m_font, fps, 0, 720 - 32)
 	Renderer2D.DrawText(m_font, "Press ESC to quit!", 0, 720 - 64, 0)
+	Renderer2D.DrawText(m_font, "Press ~ to Refresh lua code!", 0, 690, 0)
 
 	-- done drawing sprites
 	Renderer2D.End()
