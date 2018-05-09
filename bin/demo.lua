@@ -117,7 +117,7 @@ function Draw()
 	-- output some text, uses the last used colour
 	Renderer2D.DrawText(m_font, fps, 0, 720 - 32)
 	Renderer2D.DrawText(m_font, "Press ESC to quit!", 0, 720 - 64, 0)
-	Renderer2D.DrawText(m_font, "Press ~ to Refresh lua code!", 0, 690, 0)
+	--Renderer2D.DrawText(m_font, "Press ~ to Refresh lua code!", 0, 690, 0)
 
 	-- done drawing sprites
 	Renderer2D.End()

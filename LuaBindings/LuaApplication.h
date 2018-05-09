@@ -171,3 +171,6 @@ protected:
 //#endif // __cplusplus
 //
 //}
+
+
+// http://acamara.es/blog/2012/08/creating-a-lua-5-2-dynamic-link-library-of-c-functions/
