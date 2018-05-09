@@ -7,7 +7,7 @@
 
 #include <lauxlib.h>
 #include <lualib.h> 
-#include "Lua.hpp"
+#include "Lua.h"
 
 #include "LuaRenderer2D.h"
 #include "LuaTexture.h"
@@ -32,7 +32,7 @@ LuaApplication::~LuaApplication()
 
 
 
-aie::Application* currentApp;
+aie::Application* LuaApplication::currentApp;
 
 //--------------------------------------------------------------------------------------
 // startup: Initialize the game.
@@ -213,7 +213,7 @@ void LuaApplication::CreateApplicationLibrary(lua_State* pLuaState)
 // Param:
 //		pLuaState: pointer to the lua_State.
 //--------------------------------------------------------------------------------------
-extern int l_ClearScreen(lua_State* pLuaState)
+int LuaApplication::l_ClearScreen(lua_State* pLuaState)
 {
 	// make sure there are no values on the stack
 	lua_pop(pLuaState, lua_gettop(pLuaState));
@@ -232,7 +232,7 @@ extern int l_ClearScreen(lua_State* pLuaState)
 // Param:
 //		pLuaState: pointer to the lua_State.
 //--------------------------------------------------------------------------------------
-extern int l_Quit(lua_State* pLuaState)
+int LuaApplication::l_Quit(lua_State* pLuaState)
 {
 	// make sure there are no values on the stack
 	lua_pop(pLuaState, lua_gettop(pLuaState));

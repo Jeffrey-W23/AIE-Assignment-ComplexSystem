@@ -3,15 +3,15 @@
 #include "Application.h"
 
 // Preprogramming to check and then switch between if the program is a dll libary or static.
-#ifdef STATIC_LIB
-	#define LUA_DLL
-#else
-	#ifdef DLL_EXPORT
-		#define LUA_DLL __declspec(dllexport)
-	#else
-		#define LUA_DLL __declspec(dllimport)
-	#endif
-#endif
+//#ifdef STATIC_LIB
+//	#define LUA_DLL
+//#else
+//	#ifdef DLL_EXPORT
+//		#define LUA_DLL __declspec(dllexport)
+//	#else
+//		#define LUA_DLL __declspec(dllimport)
+//	#endif
+//#endif
 
 // forward declares
 class LuaRenderer2D;
@@ -51,12 +51,12 @@ public:
 	// Returns:
 	//		bool: Returns a true or false for if the startup is sucessful.
 	//--------------------------------------------------------------------------------------
-	LUA_DLL virtual bool startup();
+	virtual bool startup();
 
 	//--------------------------------------------------------------------------------------
 	// shutdown: Called on application shutdown and does all the cleaning up (eg. Deleteing pointers.)
 	//--------------------------------------------------------------------------------------
-	LUA_DLL virtual void shutdown();
+	virtual void shutdown();
 
 	//--------------------------------------------------------------------------------------
 	// Update: A virtual function to update objects.
@@ -64,12 +64,12 @@ public:
 	// Param:
 	//		deltaTime: Pass in deltaTime. A number that updates per second.
 	//--------------------------------------------------------------------------------------
-	LUA_DLL virtual void update(float deltaTime);
+	virtual void update(float deltaTime);
 
 	//--------------------------------------------------------------------------------------
 	// Draw: A virtual function to render (or "draw") objects to the screen.
 	//--------------------------------------------------------------------------------------
-	LUA_DLL virtual void draw();
+	virtual void draw();
 
 	// --------------------------------------------------------------------------------------
 	// LoadLuaFileToExecute: Load and excute a lua file by the passed in filename.
@@ -77,11 +77,11 @@ public:
 	// Param:
 	//		kcFileName: const char pointer for the filename of the lua file to load.
 	//--------------------------------------------------------------------------------------
-	LUA_DLL void LoadLuaFileToExecute(const char* kcFileName);
+	void LoadLuaFileToExecute(const char* kcFileName);
 
 protected:
 
-	static  aie::Application* currentApp;
+	static aie::Application* currentApp;
 
 	//--------------------------------------------------------------------------------------
 	// CreateApplicationLibrary: Create the lua library for the Application class.
@@ -89,8 +89,7 @@ protected:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	void CreateApplicationLibrary(lua_State* pLuaState);
-
+	static void CreateApplicationLibrary(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_ClearScreen: Lua bindings for the bootstrap Application ClearScreen function.
@@ -98,7 +97,7 @@ protected:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	//static int l_ClearScreen(lua_State* pLuaState);
+	static int l_ClearScreen(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// l_Quit: Lua bindings for the bootstrap Application Quit function.
@@ -106,9 +105,7 @@ protected:
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	//static int l_Quit(lua_State* pLuaState);
-
-
+	static int l_Quit(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// LoadLuaFunctionToExecute: Load and excute a lua function by passed in function name.
@@ -153,24 +150,24 @@ protected:
 	aie::Renderer2D* m_2dRenderer;
 };
 
-#ifdef __cplusplus
-extern "C"
-{
-	//--------------------------------------------------------------------------------------
-	// l_ClearScreen: Lua bindings for the bootstrap Application ClearScreen function.
-	//
-	// Param:
-	//		pLuaState: pointer to the lua_State.
-	//--------------------------------------------------------------------------------------
-	LUA_DLL extern int l_ClearScreen(lua_State* pLuaState);
-
-	//--------------------------------------------------------------------------------------
-	// l_Quit: Lua bindings for the bootstrap Application Quit function.
-	//
-	// Param:
-	//		pLuaState: pointer to the lua_State.
-	//--------------------------------------------------------------------------------------
-	LUA_DLL extern int l_Quit(lua_State* pLuaState);
-#endif // __cplusplus
-
-}
+//#ifdef __cplusplus
+//extern "C"
+//{
+//	//--------------------------------------------------------------------------------------
+//	// l_ClearScreen: Lua bindings for the bootstrap Application ClearScreen function.
+//	//
+//	// Param:
+//	//		pLuaState: pointer to the lua_State.
+//	//--------------------------------------------------------------------------------------
+//	LUA_DLL extern int l_ClearScreen(lua_State* pLuaState);
+//
+//	//--------------------------------------------------------------------------------------
+//	// l_Quit: Lua bindings for the bootstrap Application Quit function.
+//	//
+//	// Param:
+//	//		pLuaState: pointer to the lua_State.
+//	//--------------------------------------------------------------------------------------
+//	LUA_DLL extern int l_Quit(lua_State* pLuaState);
+//#endif // __cplusplus
+//
+//}
