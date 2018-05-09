@@ -5,9 +5,9 @@
 #include "Font.h"
 #include "Input.h"
 
+#include "Lua.hpp"
 #include <lauxlib.h>
-#include <lualib.h> 
-#include "Lua.h"
+#include <lualib.h>
 
 #include "LuaRenderer2D.h"
 #include "LuaTexture.h"
