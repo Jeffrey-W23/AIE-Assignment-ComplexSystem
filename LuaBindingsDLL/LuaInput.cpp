@@ -60,7 +60,7 @@ void LuaInput::SetInputPointer(aie::Input * pInput)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaInput::l_GetInputPointer(lua_State* pLuaState)
+extern int l_GetInputPointer(lua_State* pLuaState)
 {
 	// make sure there are no values on the stack
 	lua_pop(pLuaState, lua_gettop(pLuaState));
@@ -69,7 +69,7 @@ int LuaInput::l_GetInputPointer(lua_State* pLuaState)
 	lua_pushboolean(pLuaState, true);
 
 	// return a pointer to lua
-	lua_pushlightuserdata(pLuaState, sm_pInput);
+	lua_pushlightuserdata(pLuaState, LuaInput::sm_pInput);
 
 	// return 2 values.
 	return 2;
@@ -84,7 +84,7 @@ int LuaInput::l_GetInputPointer(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaInput::l_IsKeyDown(lua_State* pLuaState)
+extern int l_IsKeyDown(lua_State* pLuaState)
 {
 	// if there is no second argument
 	if (lua_isnumber(pLuaState, 1) == 0)
@@ -110,7 +110,7 @@ int LuaInput::l_IsKeyDown(lua_State* pLuaState)
 	lua_pop(pLuaState, 1);
 
 	// call the renderer2d setCameraPos function and pass on lua values
-	lua_pushboolean(pLuaState, sm_pInput->isKeyDown(nInputKeyID));
+	lua_pushboolean(pLuaState, LuaInput::sm_pInput->isKeyDown(nInputKeyID));
 
 	// return 2 values
 	return 2;

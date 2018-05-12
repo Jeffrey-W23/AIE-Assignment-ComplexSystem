@@ -3,6 +3,13 @@
 #include <map>
 #include <string>
 
+// declspec for exporting functions for use with dll
+#ifdef LUABINDINGSDLL_EXPORTS  
+	#define LUABINDINGS_API __declspec(dllexport)   
+#else  
+	#define LUABINDINGS_API __declspec(dllimport)   
+#endif  
+
 // forward declares
 struct lua_State;
 
@@ -41,8 +48,17 @@ public:
 	//--------------------------------------------------------------------------------------
 	static void CleanUpFontMap();
 
-private:
+	//--------------------------------------------------------------------------------------
+	// An Associative Array where the key is the file name, value is the loaded font.
+	//--------------------------------------------------------------------------------------
+	static std::map <std::string, aie::Font*> sm_mfLoadedFonts;
+};
 
+// extern c all of the lua functions.
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 	//--------------------------------------------------------------------------------------
 	// l_NewFont: Lua bindings for the bootstrap Font constructor.
 	//
@@ -52,10 +68,7 @@ private:
 	// Return:
 	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
-	static int l_NewFont(lua_State* pLuaState);
-
-	//--------------------------------------------------------------------------------------
-	// An Associative Array where the key is the file name, value is the loaded font.
-	//--------------------------------------------------------------------------------------
-	static std::map <std::string, aie::Font*> sm_mfLoadedFonts;
-};
+	LUABINDINGS_API extern int l_NewFont(lua_State* pLuaState);
+#ifdef __cplusplus
+}
+#endif

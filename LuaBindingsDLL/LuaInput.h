@@ -1,50 +1,67 @@
 // #includes, using, etc
 #pragma once
-#include <map>
-#include <string>
+
+// declspec for exporting functions for use with dll
+#ifdef LUABINDINGSDLL_EXPORTS  
+	#define LUABINDINGS_API __declspec(dllexport)   
+#else  
+	#define LUABINDINGS_API __declspec(dllimport)   
+#endif  
 
 // forward declares
 struct lua_State;
 
 namespace aie
 {
-	class Font;
+	class Input;
 }
 
 //--------------------------------------------------------------------------------------
-// LuaFont object.
+// LuaInput object.
 //--------------------------------------------------------------------------------------
-class LuaFont
+class LuaInput
 {
 public:
 
 	//--------------------------------------------------------------------------------------
 	// Default Constructor.
 	//--------------------------------------------------------------------------------------
-	LuaFont();
-
+	LuaInput();
+	
 	//--------------------------------------------------------------------------------------
 	// Default Destructor.
 	//--------------------------------------------------------------------------------------
-	~LuaFont();
+	~LuaInput();
 
 	//--------------------------------------------------------------------------------------
-	// CreateFontLibrary: Create the lua library for the Font class.
+	// CreateInputLibrary: Create the lua library for the Input class.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	static void CreateFontLibrary(lua_State* pLuaState);
+	static void CreateInputLibrary(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// CleanUpFontMap: Delete all loaded fonts in the map.
+	// SetInputPointer: Set the aie input pointer for the lua bindings.
+	//
+	// Param:
+	//		pInput: pointer to the aie input.
 	//--------------------------------------------------------------------------------------
-	static void CleanUpFontMap();
-
-private:
+	static void SetInputPointer(aie::Input * pInput);
 
 	//--------------------------------------------------------------------------------------
-	// l_NewFont: Lua bindings for the bootstrap Font constructor.
+	// pointer to the aie input.
+	//--------------------------------------------------------------------------------------
+	static aie::Input* sm_pInput;
+};
+
+// extern c all of the lua functions.
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+	//--------------------------------------------------------------------------------------
+	// l_GetInstance: Lua bindings for the bootstrap Input GetInstance singleton function.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -52,10 +69,18 @@ private:
 	// Return:
 	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
-	static int l_NewFont(lua_State* pLuaState);
+	LUABINDINGS_API extern int l_GetInputPointer(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// An Associative Array where the key is the file name, value is the loaded font.
+	// l_IsKeyDown: Lua bindings for the bootstrap Input IsKeyDown function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
-	static std::map <std::string, aie::Font*> sm_mfLoadedFonts;
-};
+	LUABINDINGS_API extern int l_IsKeyDown(lua_State* pLuaState);
+#ifdef __cplusplus
+}
+#endif

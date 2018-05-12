@@ -1,9 +1,5 @@
 // #includes, using, etc
 #include "Application2D.h"
-#include "Texture.h"
-#include "Font.h"
-#include "Input.h"
-#include <iostream>
 
 //--------------------------------------------------------------------------------------
 // Default Constructor.

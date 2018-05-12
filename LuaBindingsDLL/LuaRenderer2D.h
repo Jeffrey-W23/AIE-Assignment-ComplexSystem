@@ -1,157 +1,186 @@
 // #includes, using, etc
 #pragma once
-#include "Application.h"
+
+// declspec for exporting functions for use with dll
+#ifdef LUABINDINGSDLL_EXPORTS  
+	#define LUABINDINGS_API __declspec(dllexport)   
+#else  
+	#define LUABINDINGS_API __declspec(dllimport)   
+#endif  
 
 // forward declares
-class LuaRenderer2D;
-class LuaTexture;
-class LuaFont;
-class LuaInput;
 struct lua_State;
 
-// aie forward declares
 namespace aie
 {
 	class Renderer2D;
-	class Input;
-	class Application;
 }
 
 //--------------------------------------------------------------------------------------
-// LuaApplication object. Inherits from Application.
+// LuaRenderer2D object.
 //--------------------------------------------------------------------------------------
-class LuaApplication : public aie::Application
+class LuaRenderer2D
 {
 public:
 
 	//--------------------------------------------------------------------------------------
 	// Default Constructor.
 	//--------------------------------------------------------------------------------------
-	LuaApplication();
+	LuaRenderer2D();
 
 	//--------------------------------------------------------------------------------------
 	// Default Destructor.
 	//--------------------------------------------------------------------------------------
-	virtual ~LuaApplication();
+	~LuaRenderer2D();
 
 	//--------------------------------------------------------------------------------------
-	// startup: Initialize the game.
-	//
-	// Returns:
-	//		bool: Returns a true or false for if the startup is sucessful.
-	//--------------------------------------------------------------------------------------
-	virtual bool startup();
-
-	//--------------------------------------------------------------------------------------
-	// shutdown: Called on application shutdown and does all the cleaning up (eg. Deleteing pointers.)
-	//--------------------------------------------------------------------------------------
-	virtual void shutdown();
-
-	//--------------------------------------------------------------------------------------
-	// Update: A virtual function to update objects.
-	//
-	// Param:
-	//		deltaTime: Pass in deltaTime. A number that updates per second.
-	//--------------------------------------------------------------------------------------
-	virtual void update(float deltaTime);
-
-	//--------------------------------------------------------------------------------------
-	// Draw: A virtual function to render (or "draw") objects to the screen.
-	//--------------------------------------------------------------------------------------
-	virtual void draw();
-
-	// --------------------------------------------------------------------------------------
-	// LoadLuaFileToExecute: Load and excute a lua file by the passed in filename.
-	//
-	// Param:
-	//		kcFileName: const char pointer for the filename of the lua file to load.
-	//--------------------------------------------------------------------------------------
-	void LoadLuaFileToExecute(const char* kcFileName);
-
-protected:
-
-	//--------------------------------------------------------------------------------------
-	// CreateApplicationLibrary: Create the lua library for the Application class.
+	// CreateRenderer2DLibrary: Create the lua library for the Renderer2D class.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	static void CreateApplicationLibrary(lua_State* pLuaState);
+	static void CreateRenderer2DLibrary(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// l_ClearScreen: Lua bindings for the bootstrap Application ClearScreen function.
+	// SetRenderer2D: Set the renderer2d for the lua bindings.
 	//
 	// Param:
-	//		pLuaState: pointer to the lua_State.
-	//
-	// Return:
-	//		int: How many values are being returned.
+	//		pRenderer: pointer to the renderer2d.
 	//--------------------------------------------------------------------------------------
-	static int l_ClearScreen(lua_State* pLuaState);
+	static void SetRenderer2D(aie::Renderer2D* pRenderer);
 
 	//--------------------------------------------------------------------------------------
-	// l_Quit: Lua bindings for the bootstrap Application Quit function.
-	//
-	// Param:
-	//		pLuaState: pointer to the lua_State.
-	//
-	// Return:
-	//		int: How many values are being returned.
+	// pointer to the renderer2d.
 	//--------------------------------------------------------------------------------------
-	static int l_Quit(lua_State* pLuaState);
-
-	//--------------------------------------------------------------------------------------
-	// LoadLuaFunctionToExecute: Load and excute a lua function by passed in function name.
-	//
-	// TODO: Make this function a templated function so that if a lua functions has a param 
-	// the param can be passed in regardless of type. 
-	//
-	// Param:
-	//		kcFunction: const char pointer for function name that you want to call.
-	//		nParam: How many param does this function have.
-	//		nReturn: How many returns does this function have.
-	//		nErrorfnc: How many error functions does this function have.
-	//		deltaTime: Pass in deltaTime. A number that updates per second.
-	//--------------------------------------------------------------------------------------
-	void LoadLuaFunctionToExecute(const char* kcFunction, int nParam, int nReturn, int nErrorfnc, float deltaTime = 0);
-
-	//--------------------------------------------------------------------------------------
-	// A pointer to lua_State.
-	//--------------------------------------------------------------------------------------
-	lua_State* m_pLuaState;
-
-	//--------------------------------------------------------------------------------------
-	// A pointer to LuaRenderer2D.
-	//--------------------------------------------------------------------------------------
-	LuaRenderer2D* m_pLuaRenderer2D;
-
-	//--------------------------------------------------------------------------------------
-	// A pointer to LuaTexture.
-	//--------------------------------------------------------------------------------------
-	LuaTexture* m_pLuaTexture;
-
-	//--------------------------------------------------------------------------------------
-	// A pointer to LuaFont.
-	//--------------------------------------------------------------------------------------
-	LuaFont* m_pLuaFont;
-
-	//--------------------------------------------------------------------------------------
-	// A pointer to LuaInput.
-	//--------------------------------------------------------------------------------------
-	LuaInput* m_pLuaInput;
-
-	//--------------------------------------------------------------------------------------
-	// A pointer to Application.
-	//--------------------------------------------------------------------------------------
-	static aie::Application* sm_pCurrentApp;
-
-	//--------------------------------------------------------------------------------------
-	// A pointer to Renderer2D.
-	//--------------------------------------------------------------------------------------
-	aie::Renderer2D* m_pRenderer2D;
-
-	//--------------------------------------------------------------------------------------
-	// A constant char pointer for lua filename.
-	//--------------------------------------------------------------------------------------
-	const char* m_kcFileName;
+	static aie::Renderer2D* sm_pRenderer2D;
 };
+
+// extern c all of the lua functions.
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+	//--------------------------------------------------------------------------------------
+	// l_GetRenderer2D: Lua bindings for getting an instance of the bootstrap renderer2d
+	// pointer in lua.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_GetRenderer2D(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// l_Begin: Lua bindings for the bootstrap renderer2d Begin function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_Begin(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// l_End: Lua bindings for the bootstrap renderer2d End function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_End(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// l_SetCameraPos: Lua bindings for the bootstrap renderer2d SetCameraPos function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_SetCameraPos(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// l_SetRenderColour: Lua bindings for the bootstrap renderer2d SetRenderColour function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_SetRenderColour(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// l_SetUVRect: Lua bindings for the bootstrap renderer2d SetUVRect function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_SetUVRect(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// l_DrawSprite: Lua bindings for the bootstrap renderer2d DrawSprite function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_DrawSprite(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// l_DrawLine: Lua bindings for the bootstrap renderer2d DrawLine function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_DrawLine(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// l_DrawCircle: Lua bindings for the bootstrap renderer2d DrawCircle function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_DrawCircle(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// l_DrawBox: Lua bindings for the bootstrap renderer2d DrawBox function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_DrawBox(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// l_DrawText: Lua bindings for the bootstrap renderer2d DrawText function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_DrawText(lua_State* pLuaState);
+#ifdef __cplusplus
+}
+#endif

@@ -3,48 +3,64 @@
 #include <map>
 #include <string>
 
+// declspec for exporting functions for use with dll
+#ifdef LUABINDINGSDLL_EXPORTS  
+	#define LUABINDINGS_API __declspec(dllexport)   
+#else  
+	#define LUABINDINGS_API __declspec(dllimport)   
+#endif  
+
 // forward declares
 struct lua_State;
 
 namespace aie
 {
-	class Font;
+	class Texture;
 }
 
 //--------------------------------------------------------------------------------------
-// LuaFont object.
+// LuaTexture object.
 //--------------------------------------------------------------------------------------
-class LuaFont
+class LuaTexture
 {
 public:
 
 	//--------------------------------------------------------------------------------------
 	// Default Constructor.
 	//--------------------------------------------------------------------------------------
-	LuaFont();
-
+	LuaTexture();
+	
 	//--------------------------------------------------------------------------------------
 	// Default Destructor.
 	//--------------------------------------------------------------------------------------
-	~LuaFont();
+	~LuaTexture();
 
 	//--------------------------------------------------------------------------------------
-	// CreateFontLibrary: Create the lua library for the Font class.
+	// CreateTextureLibrary: Create the lua library for the Texture class.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
-	static void CreateFontLibrary(lua_State* pLuaState);
+	static void CreateTextureLibrary(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
-	// CleanUpFontMap: Delete all loaded fonts in the map.
+	// CleanUpTextureMap: Delete all loaded textures in the map.
 	//--------------------------------------------------------------------------------------
-	static void CleanUpFontMap();
-
-private:
+	static void CleanUpTextureMap();
 
 	//--------------------------------------------------------------------------------------
-	// l_NewFont: Lua bindings for the bootstrap Font constructor.
+	// An Associative Array where the key is the file name, value is the loaded texture.
+	//--------------------------------------------------------------------------------------
+	static std::map <std::string, aie::Texture*> sm_mtLoadedTextures;
+};
+
+// extern c all of the lua functions.
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+	//--------------------------------------------------------------------------------------
+	// l_NewTexture: Lua bindings for the bootstrap Texture constructor.
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
@@ -52,10 +68,7 @@ private:
 	// Return:
 	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
-	static int l_NewFont(lua_State* pLuaState);
-
-	//--------------------------------------------------------------------------------------
-	// An Associative Array where the key is the file name, value is the loaded font.
-	//--------------------------------------------------------------------------------------
-	static std::map <std::string, aie::Font*> sm_mfLoadedFonts;
-};
+	LUABINDINGS_API extern int l_NewTexture(lua_State* pLuaState);
+#ifdef __cplusplus
+}
+#endif

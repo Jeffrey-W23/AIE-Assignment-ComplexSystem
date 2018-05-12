@@ -3,7 +3,7 @@
 #include "LuaApplication.h"
 
 //--------------------------------------------------------------------------------------
-// Application2D object. Inherits from Application.
+// Application2D object. Inherits from LuaApplication.
 //--------------------------------------------------------------------------------------
 class Application2D : public LuaApplication
 {

@@ -3,17 +3,6 @@
 #include <map>
 #include <string>
 
-// Preprogramming to check and then switch between if the program is a dll libary or static.
-//#ifdef STATIC_LIB
-//	#define LUA_DLL
-//#else
-//	#ifdef DLL_EXPORT
-//		#define LUA_DLL __declspec(dllexport)
-//	#else
-//		#define LUA_DLL __declspec(dllimport)
-//	#endif
-//#endif
-
 // forward declares
 struct lua_State;
 
@@ -59,11 +48,14 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_NewTexture(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// An Associative Array where the key is the file name, value is the loaded texture.
 	//--------------------------------------------------------------------------------------
-	static std::map <std::string, aie::Texture*> m_mtLoadedTextures;
+	static std::map <std::string, aie::Texture*> sm_mtLoadedTextures;
 };

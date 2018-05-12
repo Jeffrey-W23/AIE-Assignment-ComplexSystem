@@ -61,7 +61,7 @@ void LuaTexture::CleanUpTextureMap()
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaTexture::l_NewTexture(lua_State* pLuaState)
+extern int l_NewTexture(lua_State* pLuaState)
 {
 	// if there is no first argument
 	if (lua_isstring(pLuaState, 1) == 0)
@@ -87,10 +87,10 @@ int LuaTexture::l_NewTexture(lua_State* pLuaState)
 	lua_pushboolean(pLuaState, true);
 
 	// search the map for the texture by the filename
-	auto search = sm_mtLoadedTextures.find(kcFileName);
+	auto search = LuaTexture::sm_mtLoadedTextures.find(kcFileName);
 
 	// if the result is already in the map
-	if (search != sm_mtLoadedTextures.end())
+	if (search != LuaTexture::sm_mtLoadedTextures.end())
 	{
 		// return a pointer to lua
 		lua_pushlightuserdata(pLuaState, search->second);
@@ -103,7 +103,7 @@ int LuaTexture::l_NewTexture(lua_State* pLuaState)
 		aie::Texture* pTexture = new aie::Texture(kcFileName);
 
 		// insert the texture into the map
-		sm_mtLoadedTextures.emplace(std::string(kcFileName), pTexture);
+		LuaTexture::sm_mtLoadedTextures.emplace(std::string(kcFileName), pTexture);
 
 		// return a pointer to lua
 		lua_pushlightuserdata(pLuaState, pTexture);

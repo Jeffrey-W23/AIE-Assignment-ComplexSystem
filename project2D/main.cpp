@@ -2,8 +2,8 @@
 #include <crtdbg.h>
 #include "Application2D.h"
 
-int main() {
-	
+int main() 
+{	
 	// Memory leak check
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 

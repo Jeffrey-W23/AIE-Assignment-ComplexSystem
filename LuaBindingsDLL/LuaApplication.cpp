@@ -5,16 +5,15 @@
 #include "Font.h"
 #include "Input.h"
 #include "Lua.hpp"
-#include <lauxlib.h>
-#include <lualib.h>
 #include "LuaRenderer2D.h"
 #include "LuaTexture.h"
 #include "LuaFont.h"
 #include "LuaInput.h"
 #include <iostream>
 
-// static member initialization of m_pCurrentApp.
+// static member initialization of m_pCurrentApp and m_pRenderer2D.
 aie::Application* LuaApplication::sm_pCurrentApp;
+aie::Renderer2D* LuaApplication::sm_pRenderer2D;
 
 //--------------------------------------------------------------------------------------
 // Default Constructor.
@@ -42,7 +41,7 @@ bool LuaApplication::startup()
 	sm_pCurrentApp = this;
 	
 	// new pointer to renderer2d
-	m_pRenderer2D = new aie::Renderer2D();
+	sm_pRenderer2D = new aie::Renderer2D();
 
 	// Create a new lua state and open libs.
 	m_pLuaState = luaL_newstate();
@@ -56,7 +55,7 @@ bool LuaApplication::startup()
 	CreateApplicationLibrary(m_pLuaState);
 
 	// set the renderer2d for lua
-	m_pLuaRenderer2D->SetRenderer2D(m_pRenderer2D);
+	m_pLuaRenderer2D->SetRenderer2D(sm_pRenderer2D);
 
 	// return true for startup
 	return true;
@@ -68,7 +67,7 @@ bool LuaApplication::startup()
 void LuaApplication::shutdown()
 {
 	// delete pointers
-	delete m_pRenderer2D;
+	delete sm_pRenderer2D;
 
 	// Load the lua function
 	LoadLuaFunctionToExecute("Shutdown", 0, 0, 0, 0);
@@ -203,9 +202,9 @@ void LuaApplication::CreateApplicationLibrary(lua_State* pLuaState)
 {
 	// Register lua functions from cpp
 	static const struct luaL_reg s_kslApplicationLibrary[] = {
-		{ "ClearScreen", l_ClearScreen },
+		{ "ClearScreen", l_ClearScreen }, // functions need to be static??
 		{ "Quit", l_Quit },
-		{ NULL, NULL }
+	{ NULL, NULL }
 	};
 
 	// Open library for lua
@@ -221,13 +220,13 @@ void LuaApplication::CreateApplicationLibrary(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaApplication::l_ClearScreen(lua_State* pLuaState)
+extern int l_ClearScreen(lua_State* pLuaState)
 {
 	// make sure there are no values on the stack
 	lua_pop(pLuaState, lua_gettop(pLuaState));
 
 	// call the renderer2d clearScreen function
-	sm_pCurrentApp->clearScreen();
+	LuaApplication::sm_pCurrentApp->clearScreen();
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -243,13 +242,13 @@ int LuaApplication::l_ClearScreen(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaApplication::l_Quit(lua_State* pLuaState)
+extern int l_Quit(lua_State* pLuaState)
 {
 	// make sure there are no values on the stack
 	lua_pop(pLuaState, lua_gettop(pLuaState));
 
 	// call the renderer2d quit function
-	sm_pCurrentApp->quit();
+	LuaApplication::sm_pCurrentApp->quit();
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);

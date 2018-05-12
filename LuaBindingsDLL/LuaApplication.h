@@ -2,6 +2,13 @@
 #pragma once
 #include "Application.h"
 
+// declspec for exporting functions for use with dll 
+#ifdef LUABINDINGSDLL_EXPORTS  
+#define LUABINDINGS_API __declspec(dllexport)   
+#else  
+#define LUABINDINGS_API __declspec(dllimport)   
+#endif  
+
 // forward declares
 class LuaRenderer2D;
 class LuaTexture;
@@ -27,12 +34,12 @@ public:
 	//--------------------------------------------------------------------------------------
 	// Default Constructor.
 	//--------------------------------------------------------------------------------------
-	LuaApplication();
+	LUABINDINGS_API LuaApplication();
 
 	//--------------------------------------------------------------------------------------
 	// Default Destructor.
 	//--------------------------------------------------------------------------------------
-	virtual ~LuaApplication();
+	LUABINDINGS_API virtual ~LuaApplication();
 
 	//--------------------------------------------------------------------------------------
 	// startup: Initialize the game.
@@ -40,12 +47,12 @@ public:
 	// Returns:
 	//		bool: Returns a true or false for if the startup is sucessful.
 	//--------------------------------------------------------------------------------------
-	virtual bool startup();
+	LUABINDINGS_API virtual bool startup();
 
 	//--------------------------------------------------------------------------------------
 	// shutdown: Called on application shutdown and does all the cleaning up (eg. Deleteing pointers.)
 	//--------------------------------------------------------------------------------------
-	virtual void shutdown();
+	LUABINDINGS_API virtual void shutdown();
 
 	//--------------------------------------------------------------------------------------
 	// Update: A virtual function to update objects.
@@ -53,12 +60,12 @@ public:
 	// Param:
 	//		deltaTime: Pass in deltaTime. A number that updates per second.
 	//--------------------------------------------------------------------------------------
-	virtual void update(float deltaTime);
+	LUABINDINGS_API virtual void update(float deltaTime);
 
 	//--------------------------------------------------------------------------------------
 	// Draw: A virtual function to render (or "draw") objects to the screen.
 	//--------------------------------------------------------------------------------------
-	virtual void draw();
+	LUABINDINGS_API virtual void draw();
 
 	// --------------------------------------------------------------------------------------
 	// LoadLuaFileToExecute: Load and excute a lua file by the passed in filename.
@@ -66,7 +73,12 @@ public:
 	// Param:
 	//		kcFileName: const char pointer for the filename of the lua file to load.
 	//--------------------------------------------------------------------------------------
-	void LoadLuaFileToExecute(const char* kcFileName);
+	LUABINDINGS_API void LoadLuaFileToExecute(const char* kcFileName);
+
+	//--------------------------------------------------------------------------------------
+	// A pointer to Application.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API static aie::Application* sm_pCurrentApp;
 
 protected:
 
@@ -77,28 +89,6 @@ protected:
 	//		pLuaState: pointer to the lua_State.
 	//--------------------------------------------------------------------------------------
 	static void CreateApplicationLibrary(lua_State* pLuaState);
-
-	//--------------------------------------------------------------------------------------
-	// l_ClearScreen: Lua bindings for the bootstrap Application ClearScreen function.
-	//
-	// Param:
-	//		pLuaState: pointer to the lua_State.
-	//
-	// Return:
-	//		int: How many values are being returned.
-	//--------------------------------------------------------------------------------------
-	static int l_ClearScreen(lua_State* pLuaState);
-
-	//--------------------------------------------------------------------------------------
-	// l_Quit: Lua bindings for the bootstrap Application Quit function.
-	//
-	// Param:
-	//		pLuaState: pointer to the lua_State.
-	//
-	// Return:
-	//		int: How many values are being returned.
-	//--------------------------------------------------------------------------------------
-	static int l_Quit(lua_State* pLuaState);
 
 	//--------------------------------------------------------------------------------------
 	// LoadLuaFunctionToExecute: Load and excute a lua function by passed in function name.
@@ -113,7 +103,7 @@ protected:
 	//		nErrorfnc: How many error functions does this function have.
 	//		deltaTime: Pass in deltaTime. A number that updates per second.
 	//--------------------------------------------------------------------------------------
-	void LoadLuaFunctionToExecute(const char* kcFunction, int nParam, int nReturn, int nErrorfnc, float deltaTime = 0);
+	LUABINDINGS_API void LoadLuaFunctionToExecute(const char* kcFunction, int nParam, int nReturn, int nErrorfnc, float deltaTime = 0);
 
 	//--------------------------------------------------------------------------------------
 	// A pointer to lua_State.
@@ -141,17 +131,42 @@ protected:
 	LuaInput* m_pLuaInput;
 
 	//--------------------------------------------------------------------------------------
-	// A pointer to Application.
-	//--------------------------------------------------------------------------------------
-	static aie::Application* sm_pCurrentApp;
-
-	//--------------------------------------------------------------------------------------
 	// A pointer to Renderer2D.
 	//--------------------------------------------------------------------------------------
-	aie::Renderer2D* m_pRenderer2D;
+	LUABINDINGS_API static aie::Renderer2D* sm_pRenderer2D;
 
 	//--------------------------------------------------------------------------------------
 	// A constant char pointer for lua filename.
 	//--------------------------------------------------------------------------------------
 	const char* m_kcFileName;
 };
+
+// extern c all of the lua functions.
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+	//--------------------------------------------------------------------------------------
+	// l_ClearScreen: Lua bindings for the bootstrap Application ClearScreen function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int  l_ClearScreen(lua_State* pLuaState);
+
+	//--------------------------------------------------------------------------------------
+	// l_Quit: Lua bindings for the bootstrap Application Quit function.
+	//
+	// Param:
+	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
+	//--------------------------------------------------------------------------------------
+	LUABINDINGS_API extern int l_Quit(lua_State* pLuaState);
+#ifdef __cplusplus
+}
+#endif

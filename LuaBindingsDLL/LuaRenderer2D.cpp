@@ -1,6 +1,7 @@
 // #includes using etc.
 #include "LuaRenderer2D.h"
 #include "Lua.hpp"
+
 #include "Renderer2D.h"
 #include "Texture.h"
 #include "Font.h"
@@ -73,13 +74,13 @@ void LuaRenderer2D::SetRenderer2D(aie::Renderer2D* pRenderer)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaRenderer2D::l_GetRenderer2D(lua_State* pLuaState)
+extern int l_GetRenderer2D(lua_State* pLuaState)
 {
 	// make sure there are no values on the stack
 	lua_pop(pLuaState, lua_gettop(pLuaState));
 	
 	// push the renderer2d
-	lua_pushlightuserdata(pLuaState, (void*)sm_pRenderer2D);
+	lua_pushlightuserdata(pLuaState, (void*)LuaRenderer2D::sm_pRenderer2D);
 
 	// returning 1 value
 	return 1;
@@ -94,13 +95,13 @@ int LuaRenderer2D::l_GetRenderer2D(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaRenderer2D::l_Begin(lua_State* pLuaState)
+extern int l_Begin(lua_State* pLuaState)
 {
 	// make sure there are no values on the stack
 	lua_pop(pLuaState, lua_gettop(pLuaState));
 
 	// call the renderer2d begin function
-	sm_pRenderer2D->begin();
+	LuaRenderer2D::sm_pRenderer2D->begin();
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -116,13 +117,13 @@ int LuaRenderer2D::l_Begin(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaRenderer2D::l_End(lua_State* pLuaState)
+extern int l_End(lua_State* pLuaState)
 {
 	// make sure there are no values on the stack
 	lua_pop(pLuaState, lua_gettop(pLuaState));
 
 	// call the renderer2d end function
-	sm_pRenderer2D->end();
+	LuaRenderer2D::sm_pRenderer2D->end();
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -138,7 +139,7 @@ int LuaRenderer2D::l_End(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaRenderer2D::l_SetCameraPos(lua_State* pLuaState)
+extern int l_SetCameraPos(lua_State* pLuaState)
 {
 	// if the stack isnt 2
 	if (lua_gettop(pLuaState) != 2)
@@ -191,7 +192,7 @@ int LuaRenderer2D::l_SetCameraPos(lua_State* pLuaState)
 	lua_pop(pLuaState, 2);
 
 	// call the renderer2d setCameraPos function and pass on lua values
-	sm_pRenderer2D->setCameraPos(fX, fY);
+	LuaRenderer2D::sm_pRenderer2D->setCameraPos(fX, fY);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -207,7 +208,7 @@ int LuaRenderer2D::l_SetCameraPos(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaRenderer2D::l_SetRenderColour(lua_State* pLuaState)
+extern int l_SetRenderColour(lua_State* pLuaState)
 {
 	// if the stack isnt 4
 	if (lua_gettop(pLuaState) != 4)
@@ -290,7 +291,7 @@ int LuaRenderer2D::l_SetRenderColour(lua_State* pLuaState)
 	lua_pop(pLuaState, 4);
 
 	// call the renderer2d setRenderColour function and pass on lua values
-	sm_pRenderer2D->setRenderColour(fR, fG, fB, fA);
+	LuaRenderer2D::sm_pRenderer2D->setRenderColour(fR, fG, fB, fA);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -306,7 +307,7 @@ int LuaRenderer2D::l_SetRenderColour(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaRenderer2D::l_SetUVRect(lua_State* pLuaState)
+extern int l_SetUVRect(lua_State* pLuaState)
 {
 	// if the stack isnt 4
 	if (lua_gettop(pLuaState) != 4)
@@ -389,7 +390,7 @@ int LuaRenderer2D::l_SetUVRect(lua_State* pLuaState)
 	lua_pop(pLuaState, 4);
 
 	// call the renderer2d setUVRect function and pass on lua values
-	sm_pRenderer2D->setUVRect(fUVx, fUVy, fUVw, fUVh);
+	LuaRenderer2D::sm_pRenderer2D->setUVRect(fUVx, fUVy, fUVw, fUVh);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -405,7 +406,7 @@ int LuaRenderer2D::l_SetUVRect(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaRenderer2D::l_DrawSprite(lua_State* pLuaState)
+extern int l_DrawSprite(lua_State* pLuaState)
 {
 	// if the stack isnt 9
 	if (lua_gettop(pLuaState) != 9)
@@ -562,7 +563,7 @@ int LuaRenderer2D::l_DrawSprite(lua_State* pLuaState)
 	lua_pop(pLuaState, 9);
 
 	// call the renderer2d drawSprite function and pass on lua values
-	sm_pRenderer2D->drawSprite(pTexture, fX, fY, fWidth, fHeight, fRotation, fDepth, fOriginX, fOriginY);
+	LuaRenderer2D::sm_pRenderer2D->drawSprite(pTexture, fX, fY, fWidth, fHeight, fRotation, fDepth, fOriginX, fOriginY);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -578,7 +579,7 @@ int LuaRenderer2D::l_DrawSprite(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaRenderer2D::l_DrawLine(lua_State* pLuaState)
+extern int l_DrawLine(lua_State* pLuaState)
 {
 	// if the stack isnt 6
 	if (lua_gettop(pLuaState) != 6)
@@ -690,7 +691,7 @@ int LuaRenderer2D::l_DrawLine(lua_State* pLuaState)
 	lua_pop(pLuaState, 6);
 
 	// call the renderer2d drawLine function and pass on lua values
-	sm_pRenderer2D->drawLine(fX1, fY1, fX2, fY2, fThickness, fDepth);
+	LuaRenderer2D::sm_pRenderer2D->drawLine(fX1, fY1, fX2, fY2, fThickness, fDepth);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -706,7 +707,7 @@ int LuaRenderer2D::l_DrawLine(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaRenderer2D::l_DrawCircle(lua_State* pLuaState)
+extern int l_DrawCircle(lua_State* pLuaState)
 {
 	// if the stack isnt 4
 	if (lua_gettop(pLuaState) != 4)
@@ -788,7 +789,7 @@ int LuaRenderer2D::l_DrawCircle(lua_State* pLuaState)
 	lua_pop(pLuaState, 4);
 
 	// call the renderer2d drawCircle function and pass on lua values
-	sm_pRenderer2D->drawCircle(fX, fY, fRadius, fDepth);
+	LuaRenderer2D::sm_pRenderer2D->drawCircle(fX, fY, fRadius, fDepth);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -804,7 +805,7 @@ int LuaRenderer2D::l_DrawCircle(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaRenderer2D::l_DrawBox(lua_State* pLuaState)
+extern int l_DrawBox(lua_State* pLuaState)
 {
 	// if the stack isnt 6
 	if (lua_gettop(pLuaState) != 6)
@@ -917,7 +918,7 @@ int LuaRenderer2D::l_DrawBox(lua_State* pLuaState)
 	lua_pop(pLuaState, 6);
 
 	// call the renderer2d drawBox function and pass on lua values
-	sm_pRenderer2D->drawBox(fX, fY, fWidth, fHeight, fRotation, fDepth);
+	LuaRenderer2D::sm_pRenderer2D->drawBox(fX, fY, fWidth, fHeight, fRotation, fDepth);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);
@@ -933,7 +934,7 @@ int LuaRenderer2D::l_DrawBox(lua_State* pLuaState)
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaRenderer2D::l_DrawText(lua_State* pLuaState)
+extern int l_DrawText(lua_State* pLuaState)
 {
 	// if the stack isnt 5
 	if (lua_gettop(pLuaState) != 5)
@@ -1035,7 +1036,7 @@ int LuaRenderer2D::l_DrawText(lua_State* pLuaState)
 	lua_pop(pLuaState, 5);
 
 	// call the renderer2d drawText function and pass on lua values
-	sm_pRenderer2D->drawText(pFont, kcpText, fX, fY, fDepth);
+	LuaRenderer2D::sm_pRenderer2D->drawText(pFont, kcpText, fX, fY, fDepth);
 
 	// push true and returns 1 value
 	lua_pushboolean(pLuaState, true);

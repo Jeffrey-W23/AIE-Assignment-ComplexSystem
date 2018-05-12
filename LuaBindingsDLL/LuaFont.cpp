@@ -61,7 +61,7 @@ void LuaFont::CleanUpFontMap()
 // Return:
 //		int: How many values are being returned.
 //--------------------------------------------------------------------------------------
-int LuaFont::l_NewFont(lua_State* pLuaState)
+extern int l_NewFont(lua_State* pLuaState)
 {
 	// if the stack isnt 2
 	if (lua_gettop(pLuaState) != 2)
@@ -116,10 +116,10 @@ int LuaFont::l_NewFont(lua_State* pLuaState)
 	lua_pushboolean(pLuaState, true);
 
 	// search the map for the font by the filename
-	auto search = sm_mfLoadedFonts.find(kcFileName);
+	auto search = LuaFont::sm_mfLoadedFonts.find(kcFileName);
 
 	// if the result is already in the map
-	if (search != sm_mfLoadedFonts.end())
+	if (search != LuaFont::sm_mfLoadedFonts.end())
 	{
 		// return a pointer to lua
 		lua_pushlightuserdata(pLuaState, search->second);
@@ -132,7 +132,7 @@ int LuaFont::l_NewFont(lua_State* pLuaState)
 		aie::Font* pFont = new aie::Font(kcFileName, usiFontSize);
 
 		// insert the font into the map
-		sm_mfLoadedFonts.emplace(std::string(kcFileName), pFont);
+		LuaFont::sm_mfLoadedFonts.emplace(std::string(kcFileName), pFont);
 
 		// return a pointer to lua
 		lua_pushlightuserdata(pLuaState, pFont);

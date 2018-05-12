@@ -1,17 +1,6 @@
 // #includes, using, etc
 #pragma once
 
-// Preprogramming to check and then switch between if the program is a dll libary or static.
-//#ifdef STATIC_LIB
-//	#define LUA_DLL
-//#else
-//	#ifdef DLL_EXPORT
-//		#define LUA_DLL __declspec(dllexport)
-//	#else
-//		#define LUA_DLL __declspec(dllimport)
-//	#endif
-//#endif
-
 // forward declares
 struct lua_State;
 
@@ -51,7 +40,7 @@ public:
 	// Param:
 	//		pRenderer: pointer to the renderer2d.
 	//--------------------------------------------------------------------------------------
-	static void SetRenderer2D(aie::Renderer2D* renderer);
+	static void SetRenderer2D(aie::Renderer2D* pRenderer);
 
 private:
 
@@ -61,6 +50,9 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_GetRenderer2D(lua_State* pLuaState);
 
@@ -69,6 +61,9 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_Begin(lua_State* pLuaState);
 
@@ -77,6 +72,9 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_End(lua_State* pLuaState);
 
@@ -85,6 +83,9 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_SetCameraPos(lua_State* pLuaState);
 
@@ -93,6 +94,9 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_SetRenderColour(lua_State* pLuaState);
 
@@ -101,6 +105,9 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_SetUVRect(lua_State* pLuaState);
 
@@ -109,6 +116,9 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_DrawSprite(lua_State* pLuaState);
 
@@ -117,6 +127,9 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_DrawLine(lua_State* pLuaState);
 
@@ -125,6 +138,9 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_DrawCircle(lua_State* pLuaState);
 
@@ -133,6 +149,9 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_DrawBox(lua_State* pLuaState);
 
@@ -141,6 +160,9 @@ private:
 	//
 	// Param:
 	//		pLuaState: pointer to the lua_State.
+	//
+	// Return:
+	//		int: How many values are being returned.
 	//--------------------------------------------------------------------------------------
 	static int l_DrawText(lua_State* pLuaState);
 

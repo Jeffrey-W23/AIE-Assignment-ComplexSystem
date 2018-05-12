@@ -15,42 +15,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\LuaBindings\LuaApplication.h">
+    <ClInclude Include="LuaApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\LuaBindings\LuaFont.h">
+    <ClInclude Include="LuaFont.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\LuaBindings\LuaInitialize.h">
+    <ClInclude Include="LuaInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\LuaBindings\LuaInput.h">
+    <ClInclude Include="LuaRenderer2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\LuaBindings\LuaRenderer2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\LuaBindings\LuaTexture.h">
+    <ClInclude Include="LuaTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\LuaBindings\LuaApplication.cpp">
+    <ClCompile Include="LuaApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\LuaBindings\LuaFont.cpp">
+    <ClCompile Include="LuaFont.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\LuaBindings\LuaInitialize.cpp">
+    <ClCompile Include="LuaInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\LuaBindings\LuaInput.cpp">
+    <ClCompile Include="LuaRenderer2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\LuaBindings\LuaRenderer2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\LuaBindings\LuaTexture.cpp">
+    <ClCompile Include="LuaTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
